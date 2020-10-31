@@ -7,6 +7,12 @@ import './App.css';
 import Checkout from './Components/Checkout'
 import { useStateValue } from "./StateProvider"
 import { auth } from './firebase'
+import Payment from './Components/Payment'
+import { loadStripe } from '@stripe/stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
+import Orders from './Components/Orders'
+
+const promise = loadStripe('pk_test_51HhvjfBoFDNCWh4RHOL8wiWFx7lrzkii3xXMBa7L64t7397DIunruvISL8giTn68R8722ZVnbRs9XwGiXrs8xsPb00ZAtqUaEg')
 
 function App() {
   const [{user}, dispatch] = useStateValue();
@@ -17,7 +23,7 @@ function App() {
     const unsubscribe = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
           //then user is logged in...
-
+          
           dispatch({
             type: "SET_USER",
             user: authUser
@@ -43,13 +49,23 @@ function App() {
     <Router>
       <div className="app">
         <Switch>
-          <Route path="/checkout">
+          <Route path="/orders">
             <Header />
-            <Checkout />
+            <Orders />
           </Route>
           <Route path="/login">
             <Login />
           </Route>
+          <Route path="/checkout">
+            <Header />
+            <Checkout />
+          </Route>
+          <Route path="/payment">
+            <Header />
+            <Elements stripe={promise}>
+              <Payment />
+            </Elements>
+          </Route>       
           {/** This Is The default route */}
           <Route path="/">
             <Header />

@@ -31,16 +31,16 @@ export default function Header() {
                 <input type="text" className="header_searchInput" />
                 <SearchIcon className="header_searchIcon" />
             </div>
+            
             {/** 3 link */}
             <div className="header_nav">
                 <Link to={!user && "/login"} className="header_link">
                     <div onClick={login} className="header_option">
-                        <span className="header_optionLineOne">Hello {user?.email}</span>
+                        <span className="header_optionLineOne">Hello {!user ? 'Guest' : user.email}</span>
                         <span className="header_optionLineTwo">{user ? 'Sign Out' : 'Sign in'} </span>
                     </div>
                 </Link>
-
-                <Link to="/" className="header_link">
+                <Link to="/orders">
                     <div className="header_option">
                         <span  className="header_optionLineOne">Returns</span>
                         <span className="header_optionLineTwo">& Orders</span>
